@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen dark:bg-[#0C0E16] transition-colors duration-300 ${themeClasses}`}
+      className={`min-h-screen  transition-colors duration-300 ${themeClasses}`}
     >
       {isDesktop && (
         <DesktopSidebar

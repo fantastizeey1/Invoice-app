@@ -12,12 +12,26 @@ const Header: React.FC<HeaderProps> = ({
     <div className="flex items-center justify-between mb-12 text-[#0C0E16] dark:text-white">
       <div>
         <h1 className="text-3xl font-bold  mb-2">Invoices</h1>
-        <p className="dark:text-[#DFE3FA] hidden sm:inline">
-          There are {totalInvoices} total invoices
-        </p>
-        <p className="text-slate-400 inline sm:hidden">
-          {totalInvoices} invoices
-        </p>
+        {totalInvoices === 0 ? (
+          <>
+            <p className="dark:text-[#DFE3FA] hidden sm:inline">No invoices</p>
+            <p className="text-slate-400 inline sm:hidden">No invoices</p>
+          </>
+        ) : (
+          <>
+            <p className="dark:text-[#DFE3FA] hidden sm:inline">
+              There {totalInvoices === 1 ? "is" : "are"} {totalInvoices}{" "}
+              {selectedFilter !== "all" ? `${selectedFilter} ` : "total "}
+              invoice
+              {totalInvoices !== 1 && "s"}
+            </p>
+            <p className="text-slate-400 inline sm:hidden">
+              {totalInvoices}{" "}
+              {selectedFilter !== "all" ? `${selectedFilter}` : ""} invoice
+              {totalInvoices !== 1 && "s"}
+            </p>
+          </>
+        )}
       </div>
 
       <div className="flex items-center space-x-4">

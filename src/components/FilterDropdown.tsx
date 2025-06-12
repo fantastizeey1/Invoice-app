@@ -24,10 +24,10 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className="hidden sm:inline text-[#888EB0] dark:text-[#DFE3FA]">
+        <span className="hidden sm:inline text-[#0C0E16] dark:text-[#DFE3FA]">
           Filter by status
         </span>
-        <span className="inline sm:hidden text-[#888EB0] dark:text-[#DFE3FA]">
+        <span className="inline sm:hidden text-[#0C0E16] dark:text-[#DFE3FA]">
           Filter
         </span>
         <ChevronDown

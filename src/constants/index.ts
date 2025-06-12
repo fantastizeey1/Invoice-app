@@ -1,7 +1,7 @@
 // theme
 export const THEME_CLASSES = {
-  dark: "bg-[#0C0E16] text-white",
-  light: "bg-white text-[#0C0E16]",
+  dark: "bg-[#141625] text-white",
+  light: "bg-[#E6E7E8] text-[#0C0E16]",
 } as const;
 
 // breakpoints

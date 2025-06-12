@@ -121,3 +121,28 @@ export interface FilterDropdownProps {
   selected: FilterType | "";
   onSelect: (filter: FilterType | "") => void;
 }
+
+export interface InvoicesData {
+  id: string;
+  service: string;
+  status: "pending" | "paid" | "draft";
+  invoiceDate: string;
+  dueDate: string;
+  billTo: {
+    name: string;
+    address: string;
+    city: string;
+    postcode: string;
+    country: string;
+  };
+  clientName: string;
+  sentTo: string;
+  businessAddress: {
+    street: string;
+    city: string;
+    postcode: string;
+    country: string;
+  };
+  items: InvoiceItem[];
+  amount: number;
+}

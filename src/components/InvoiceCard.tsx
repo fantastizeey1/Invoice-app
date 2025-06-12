@@ -2,7 +2,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-
 import StatusBadge from "./StatusBadge";
 
 import type { Invoice, InvoiceListProps } from "@/types";
@@ -19,38 +18,54 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, isDesktop }) => {
   const href = `/invoices/${invoice.id}`;
 
   const CardContent = (
-    <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer group">
+    <div className="bg-[#ffffff] dark:bg-[#1E2139]  rounded-xl p-6 hover:border-[1px] hover:border-[#7C5DFA] transition-all duration-300 cursor-pointer group">
       {isDesktop ? (
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="text-slate-300 font-medium">#{invoice.id}</div>
-            <div className="text-slate-400 text-sm">{dueDateText}</div>
-            <div className="text-slate-300">{invoice.clientName}</div>
+          <div className="flex items-center justify-start w-3/5  lg:space-x-4">
+            <div className="text-[#0C0E16] dark:text-white font-bold w-1/3">
+              <span className=" text-[#7E88C3] lg:ml-3">#</span>
+              {invoice.id}
+            </div>
+            <div className="text-[#7E88C3] dark:text-[#DFE3FA] font-medium text-sm w-1/3">
+              {dueDateText}
+            </div>
+            <div className="text-[#858BB2] dark:text-white font-medium w-1/3">
+              {invoice.clientName}
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="text-white font-semibold text-lg">
+          <div className="flex  w-2/5 space-x-4  xl:space-x-10">
+            <div className="dark:text-white text-[#0C0E16] flex  justify-end items-center  font-bold w-1/2 text-lg">
               {formattedAmount}
             </div>
-            <StatusBadge status={invoice.status} />
-            <ChevronDown className="w-4 h-4 text-slate-400 rotate-[-90deg] group-hover:translate-x-1 transition-transform" />
+            <div className="flex items-center justify-end lg:gap-5  w-1/2">
+              <StatusBadge status={invoice.status} />
+              <ChevronDown className="w-4 h-4 text-[#7C5DFA] rotate-[-90deg] group-hover:translate-x-1 transition-transform" />
+            </div>
           </div>
         </div>
       ) : (
-        <>
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-slate-300 font-medium">#{invoice.id}</div>
-            <div className="text-slate-300">{invoice.clientName}</div>
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between mb-6">
+            <div className="text-[#0C0E16] dark:text-white font-bold">
+              <span className=" text-[#7E88C3]">#</span>
+              {invoice.id}
+            </div>
+            <div className="text-[#858BB2] dark:text-white font-medium">
+              {invoice.clientName}
+            </div>
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-slate-400 text-sm mb-1">{dueDateText}</div>
-              <div className="text-white font-semibold text-lg">
+              <div className="text-[#7E88C3] dark:text-[#DFE3FA] text-sm mb-2">
+                {dueDateText}
+              </div>
+              <div className="dark:text-white text-[#0C0E16] font-semibold text-lg">
                 {formattedAmount}
               </div>
             </div>
             <StatusBadge status={invoice.status} />
           </div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -65,7 +80,6 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoice, isDesktop }) => {
 export const InvoiceList: React.FC<InvoiceListProps> = ({
   invoices,
   isMobile,
-  filter,
 }) => {
   if (invoices.length === 0) {
     return <EmptyState />;
