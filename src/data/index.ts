@@ -1,0 +1,51 @@
+export const invoicesData = [
+  {
+    id: "RT3080",
+    dueDate: "19 Aug 2021",
+    clientName: "Jensen Huang",
+    amount: 1800.9,
+    status: "paid",
+  },
+  {
+    id: "XM9141",
+    dueDate: "20 Sep 2021",
+    clientName: "Alex Grim",
+    amount: 556.0,
+    status: "pending",
+  },
+  {
+    id: "RG0314",
+    dueDate: "01 Oct 2021",
+    clientName: "John Morrison",
+    amount: 14002.33,
+    status: "paid",
+  },
+  {
+    id: "RT2080",
+    dueDate: "12 Oct 2021",
+    clientName: "Alysa Werner",
+    amount: 102.04,
+    status: "pending",
+  },
+  {
+    id: "AA1449",
+    dueDate: "14 Oct 2021",
+    clientName: "Mellisa Clarke",
+    amount: 4032.33,
+    status: "pending",
+  },
+  {
+    id: "TY9141",
+    dueDate: "31 Oct 2021",
+    clientName: "Thomas Wayne",
+    amount: 6155.91,
+    status: "pending",
+  },
+  {
+    id: "FV2353",
+    dueDate: "12 Nov 2021",
+    clientName: "Anita Wainwright",
+    amount: 3102.04,
+    status: "draft",
+  },
+];
