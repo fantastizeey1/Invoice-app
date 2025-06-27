@@ -1,7 +1,5 @@
 // components/MobileHeader.tsx
 import React from "react";
-import { User } from "lucide-react";
-
 import { ThemeToggle } from "./ThemeToggle";
 import type { MobileHeaderProps } from "@/types";
 

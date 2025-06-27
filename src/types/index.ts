@@ -146,3 +146,7 @@ export interface InvoicesData {
   items: InvoiceItem[];
   amount: number;
 }
+
+export interface LayoutProps {
+  children: React.ReactNode;
+}
