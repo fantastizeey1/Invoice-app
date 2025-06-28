@@ -7,11 +7,12 @@ const Header: React.FC<HeaderProps> = ({
   totalInvoices,
   selectedFilter,
   onFilterChange,
+  onNewInvoice,
 }) => {
   return (
     <div className="flex items-center justify-between mb-12 text-[#0C0E16] dark:text-white">
       <div>
-        <h1 className="text-3xl font-bold  mb-2">Invoices</h1>
+        <h1 className="text-3xl font-bold mb-2">Invoices</h1>
         {totalInvoices === 0 ? (
           <>
             <p className="dark:text-[#DFE3FA] hidden sm:inline">No invoices</p>
@@ -38,7 +39,8 @@ const Header: React.FC<HeaderProps> = ({
         <FilterDropdown selected={selectedFilter} onSelect={onFilterChange} />
 
         <Button
-          className="bg-[#9277FF]  text-white px-3 py-6 rounded-full font-medium transition-colors duration-200 flex items-center cursor-pointer space-x-2 hover:bg-[#9277FF] "
+          onClick={onNewInvoice}
+          className="bg-[#9277FF] text-white px-3 py-6 rounded-full font-medium transition-colors duration-200 flex items-center cursor-pointer space-x-2 hover:bg-[#7C5DFA]"
           aria-label="Create new invoice"
         >
           <span className="bg-white rounded-full p-2 shadow-md flex items-center justify-center">

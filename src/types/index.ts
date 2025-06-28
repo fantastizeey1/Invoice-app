@@ -115,6 +115,7 @@ export interface HeaderProps {
   totalInvoices: number;
   selectedFilter: FilterType | "";
   onFilterChange: (filter: FilterType | "") => void;
+  onNewInvoice: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface FilterDropdownProps {
@@ -149,4 +150,104 @@ export interface InvoicesData {
 
 export interface LayoutProps {
   children: React.ReactNode;
+}
+
+export interface Address {
+  street: string;
+  city: string;
+  postCode: string;
+  country: string;
+}
+
+export interface Client {
+  name: string;
+  email: string;
+  address: Address;
+}
+
+export interface Item {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+export interface InvoiceData {
+  senderAddress: Address;
+  client: Client;
+  invoiceDate: Date | null;
+  paymentTerms: string;
+  projectDescription: string;
+  items: Item[];
+}
+
+export interface CreateInvoiceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onInvoiceCreate?: (invoice: InvoiceData, isDraft: boolean) => void;
+}
+
+export type ValidationErrors = {
+  senderAddress?: Partial<Record<keyof Address, string>>;
+  client?: {
+    name?: string;
+    email?: string;
+    address?: Partial<Record<keyof Address, string>>;
+  };
+  invoiceDate?: string;
+  projectDescription?: string;
+  items?: {
+    [itemId: string]: Partial<Record<"name" | "quantity" | "price", string>>;
+  };
+};
+
+export interface Item {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+export type ItemListProps = {
+  items: Item[];
+  onItemUpdate: (
+    id: string,
+    field: keyof Omit<Item, "id" | "total">,
+    value: string | number
+  ) => void;
+  onItemRemove: (id: string) => void;
+  onAddItem: () => void;
+  errors?: {
+    [itemId: string]: Partial<Record<"name" | "quantity" | "price", string>>;
+  };
+};
+
+export interface ClientSectionProps {
+  client: Client;
+  onClientChange: (field: keyof Omit<Client, "address">, value: string) => void;
+  onAddressChange: (field: keyof Address, value: string) => void;
+  errors?: {
+    name?: string;
+    email?: string;
+    address?: Partial<Address>;
+  };
+}
+
+export interface AddressSectionProps {
+  title: string;
+  address: Address;
+  onAddressChange: (field: keyof Address, value: string) => void;
+  errors?: Partial<Address>;
+}
+
+export interface FormInputProps {
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  error?: string;
+  required?: boolean;
 }
