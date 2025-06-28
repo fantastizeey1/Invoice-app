@@ -13,7 +13,7 @@ export const MainContent: React.FC<MainContentProps> = ({
   filteredInvoices,
 }) => {
   return (
-    <main className={isMobile ? "p-4 pt-8" : "pl-20 p-12"}>
+    <div className={isMobile ? "p-4 pt-8" : "pl-20 p-12"}>
       <div className="max-w-6xl mx-auto">
         <Header
           isDarkMode={isDarkMode}
@@ -28,6 +28,6 @@ export const MainContent: React.FC<MainContentProps> = ({
           filter={filter === "" ? "all" : filter}
         />
       </div>
-    </main>
+    </div>
   );
 };

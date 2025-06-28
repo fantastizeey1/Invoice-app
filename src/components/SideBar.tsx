@@ -7,7 +7,7 @@ const Sidebar: React.FC<Omit<DesktopSidebarProps, "isDesktop">> = ({
   toggleTheme,
 }) => {
   return (
-    <div className="flex flex-col h-full justify-between items-center  bg-[#1E2139]">
+    <div className="flex flex-col h-full justify-between items-center rounded-tr-3xl  bg-[#1E2139]">
       {/* Logo */}
       <div>
         <img src="/Logo.svg" alt="Company Logo" className="w-16 h-16" />
