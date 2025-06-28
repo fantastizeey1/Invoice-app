@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   Address,
   Client,
@@ -10,32 +10,42 @@ import type {
 export const useInvoiceForm = (
   onInvoiceCreate?: (data: InvoiceData, isDraft: boolean) => void,
   onClose?: () => void,
-  isOpen: boolean = true
+  isOpen: boolean = true,
+  initialInvoice?: InvoiceData
 ) => {
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>({
-    senderAddress: {
-      street: "",
-      city: "",
-      postCode: "",
-      country: "",
-    },
-    client: {
-      name: "",
-      email: "",
-      address: {
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(
+    initialInvoice ?? {
+      id: "",
+      senderAddress: {
         street: "",
         city: "",
         postCode: "",
         country: "",
       },
-    },
-    invoiceDate: new Date(), // keep this - default to today
-    paymentTerms: "Net 30 Days", // this is fine
-    projectDescription: "",
-    items: [
-      { id: "1", name: "", quantity: 1, price: 0.0, total: 0.0 }, // set price to 0
-    ],
-  });
+      client: {
+        name: "",
+        email: "",
+        address: {
+          street: "",
+          city: "",
+          postCode: "",
+          country: "",
+        },
+      },
+      invoiceDate: new Date(), // keep this - default to today
+      paymentTerms: "Net 30 Days", // this is fine
+      projectDescription: "",
+      items: [
+        { id: "1", name: "", quantity: 1, price: 0.0, total: 0.0 }, // set price to 0
+      ],
+    }
+  );
+
+  useEffect(() => {
+    if (isOpen && initialInvoice) {
+      setInvoiceData(initialInvoice);
+    }
+  }, [isOpen, initialInvoice]);
 
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [hasSubmitted, setHasSubmitted] = useState(false);

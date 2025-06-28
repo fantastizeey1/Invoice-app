@@ -7,11 +7,12 @@ import DropdownField from "./form/DropdownField";
 import ItemList from "./form/ItemList";
 import { useInvoiceForm } from "@/hooks/useInvoiceForm";
 import type { CreateInvoiceModalProps } from "@/types";
-
 const CreateInvoiceModal: React.FC<CreateInvoiceModalProps> = ({
   isOpen,
   onClose,
   onInvoiceCreate,
+  initialInvoice,
+  mode = "create",
 }) => {
   const {
     invoiceData,
@@ -28,7 +29,7 @@ const CreateInvoiceModal: React.FC<CreateInvoiceModalProps> = ({
     removeItem,
     handleSubmit,
     handleDiscard,
-  } = useInvoiceForm(onInvoiceCreate, onClose, isOpen);
+  } = useInvoiceForm(onInvoiceCreate, onClose, isOpen, initialInvoice);
 
   if (!isOpen) return null;
 
@@ -52,8 +53,8 @@ const CreateInvoiceModal: React.FC<CreateInvoiceModalProps> = ({
           </div>
 
           <div className="p-6 space-y-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white hidden lg:block mb-8">
-              New Invoice
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              {mode === "edit" ? "Edit Invoice" : "New Invoice"}
             </h2>
 
             {/* Bill From Section */}

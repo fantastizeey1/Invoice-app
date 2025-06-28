@@ -1,20 +1,96 @@
 import { useParams, useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { invoicesData } from "@/data";
 import { useResponsive } from "@/hooks";
 import { Button } from "@/components/ui/button";
+import CreateInvoiceModal from "@/components/CreateInvoiceModal";
+import type { InvoiceData } from "@/types";
+import { useMemo } from "react";
 
 const InvoiceDetail: React.FC = () => {
   const { id } = useParams();
-  const invoice = invoicesData.find((invoice) => invoice.id === id);
+  const [invoices, setInvoices] = useState(invoicesData);
   const navigate = useNavigate();
   const { isMobile } = useResponsive();
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const invoice = useMemo(() => {
+    return invoices.find((inv) => inv.id === id);
+  }, [invoices, id]);
+
+  function calculateDueDate(date: Date | null, paymentTerms: string): string {
+    if (!date) return "";
+    const days = parseInt(paymentTerms.match(/\d+/)?.[0] || "30", 10); // e.g., "Net 30 Days" → 30
+    const due = new Date(date);
+    due.setDate(due.getDate() + days);
+    return due.toISOString();
+  }
+
+  const handleInvoiceUpdate = (updated: InvoiceData) => {
+    const transformed = {
+      ...updated,
+      invoiceDate: updated.invoiceDate?.toISOString() ?? "",
+      dueDate: calculateDueDate(updated.invoiceDate, updated.paymentTerms), // you may already have this
+      service: updated.projectDescription,
+      billTo: {
+        name: updated.client.name,
+        address: updated.client.address.street,
+        city: updated.client.address.city,
+        postcode: updated.client.address.postCode,
+        country: updated.client.address.country,
+      },
+      sentTo: updated.client.email,
+      businessAddress: {
+        street: updated.senderAddress.street,
+        city: updated.senderAddress.city,
+        postcode: updated.senderAddress.postCode,
+        country: updated.senderAddress.country,
+      },
+      amount: updated.items.reduce((acc, item) => acc + item.total, 0),
+    };
+
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === updated.id ? { ...inv, ...transformed } : inv
+      )
+    );
+
+    setIsEditOpen(false);
+  };
+
+  const handleEdit = () => {
+    setIsEditOpen(true);
+  };
 
   if (!invoice) {
     return <div>Invoice not found</div>;
   }
+
+  const mappedInvoice: InvoiceData = {
+    id: invoice.id,
+    senderAddress: {
+      street: invoice.businessAddress.street,
+      city: invoice.businessAddress.city,
+      postCode: invoice.businessAddress.postcode,
+      country: invoice.businessAddress.country,
+    },
+    client: {
+      name: invoice.billTo.name,
+      email: invoice.sentTo,
+      address: {
+        street: invoice.billTo.address,
+        city: invoice.billTo.city,
+        postCode: invoice.billTo.postcode,
+        country: invoice.billTo.country,
+      },
+    },
+    invoiceDate: new Date(invoice.invoiceDate),
+    paymentTerms: "Net 30 Days",
+    projectDescription: invoice.service,
+    items: invoice.items,
+  };
 
   return (
     <div className={isMobile ? "p-4 pt-8 pb-24" : "pl-20 p-12"}>
@@ -46,7 +122,10 @@ const InvoiceDetail: React.FC = () => {
             </div>
 
             <div className="flex space-x-3">
-              <Button className="px-4 py-2 bg-[#F9FAFE] dark:bg-[#252945] text-[#7E88C3] dark:text-[#DFE3FA] rounded-full">
+              <Button
+                onClick={handleEdit}
+                className="px-4 py-2 bg-[#F9FAFE] dark:bg-[#252945] text-[#7E88C3] dark:text-[#DFE3FA] rounded-full"
+              >
                 Edit
               </Button>
               <Button className="px-4 py-2 bg-[#EC5757] hover:bg-[#EC5757]/50 text-[#DFE3FA] rounded-full">
@@ -260,7 +339,10 @@ const InvoiceDetail: React.FC = () => {
         {/* Mobile Bottom Actions */}
         {isMobile && (
           <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1E2139] shadow-lg border-t border-gray-200 dark:border-gray-700 p-4 flex gap-2">
-            <button className="flex-1 py-4 rounded-full bg-[#F9FAFE] dark:bg-[#252945] text-[#7E88C3] dark:text-[#DFE3FA] text-sm font-bold">
+            <button
+              onClick={handleEdit}
+              className="flex-1 py-4 rounded-full bg-[#F9FAFE] dark:bg-[#252945] text-[#7E88C3] dark:text-[#DFE3FA] text-sm font-bold"
+            >
               Edit
             </button>
             <button className="flex-1 py-4 rounded-full bg-[#EC5757] hover:bg-[#EC5757]/90 text-white text-sm font-bold">
@@ -272,6 +354,15 @@ const InvoiceDetail: React.FC = () => {
           </div>
         )}
       </div>
+      {isEditOpen && (
+        <CreateInvoiceModal
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          initialInvoice={mappedInvoice}
+          onInvoiceCreate={handleInvoiceUpdate}
+          mode="edit"
+        />
+      )}
     </div>
   );
 };

@@ -174,6 +174,7 @@ export interface Item {
 }
 
 export interface InvoiceData {
+  id: string;
   senderAddress: Address;
   client: Client;
   invoiceDate: Date | null;
@@ -186,6 +187,8 @@ export interface CreateInvoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
   onInvoiceCreate?: (invoice: InvoiceData, isDraft: boolean) => void;
+  initialInvoice?: InvoiceData;
+  mode?: "edit" | "create";
 }
 
 export type ValidationErrors = {
